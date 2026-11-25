@@ -1,0 +1,532 @@
+- rectBackground:
+    Control: Rectangle
+    Properties:
+      Fill: =RGBA(244, 246, 249, 1)
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =Parent.Height
+- rectHeader:
+    Control: Rectangle
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      X: =0
+      Y: =0
+      Width: =Parent.Width
+      Height: =90
+- lblEyebrow:
+    Control: Label
+    Properties:
+      Text: ="SMART CAMPUS · LOW-CODE TRACK (POWER APPS)"
+      X: =40
+      Y: =14
+      Width: =800
+      Height: =24
+      Size: =11
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(36, 83, 199, 1)
+- lblTitle:
+    Control: Label
+    Properties:
+      Text: ="Room Availability Checker"
+      X: =40
+      Y: =38
+      Width: =800
+      Height: =44
+      Size: =22
+      FontWeight: =FontWeight.Bold
+      Color: =RGBA(29, 36, 51, 1)
+- lblVersion:
+    Control: Label
+    Properties:
+      Text: ="v1.0.0"
+      X: =1176
+      Y: =34
+      Width: =150
+      Height: =30
+      Size: =11
+      Align: =Align.Right
+      Color: =RGBA(93, 102, 119, 1)
+- rectFormCard:
+    Control: Rectangle
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      BorderColor: =RGBA(223, 227, 234, 1)
+      BorderThickness: =1
+      X: =30
+      Y: =105
+      Width: =640
+      Height: =648
+- lblFormTitle:
+    Control: Label
+    Properties:
+      Text: ="Check a time slot"
+      X: =50
+      Y: =118
+      Width: =600
+      Height: =32
+      Size: =15
+      FontWeight: =FontWeight.Bold
+      Color: =RGBA(29, 36, 51, 1)
+- lblRoom:
+    Control: Label
+    Properties:
+      Text: ="Room B-204 (fictional), capacity 30"
+      X: =50
+      Y: =148
+      Width: =600
+      Height: =24
+      Size: =11
+      Color: =RGBA(93, 102, 119, 1)
+- lblStartCap:
+    Control: Label
+    Properties:
+      Text: ="Start date"
+      X: =50
+      Y: =182
+      Width: =260
+      Height: =24
+      Size: =11
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(29, 36, 51, 1)
+- dpStart:
+    Control: Classic/DatePicker
+    Properties:
+      DefaultDate: =Date(2027, 2, 1)
+      Format: ="yyyy-mm-dd"
+      IsEditable: =true
+      StartYear: =2025
+      EndYear: =2030
+      X: =50
+      Y: =208
+      Width: =260
+      Height: =40
+      Size: =12
+- lblTimeCap:
+    Control: Label
+    Properties:
+      Text: |-
+        ="Start time (hour : minute)"
+      X: =330
+      Y: =182
+      Width: =300
+      Height: =24
+      Size: =11
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(29, 36, 51, 1)
+- ddHour:
+    Control: Classic/DropDown
+    Properties:
+      Items: =Sequence(24, 0)
+      Default: =13
+      X: =330
+      Y: =208
+      Width: =120
+      Height: =40
+      Size: =12
+- ddMinute:
+    Control: Classic/DropDown
+    Properties:
+      Items: =Sequence(12, 0, 5)
+      Default: =30
+      X: =460
+      Y: =208
+      Width: =120
+      Height: =40
+      Size: =12
+- lblDurCap:
+    Control: Label
+    Properties:
+      Text: ="Duration (minutes, 1 to 120)"
+      X: =50
+      Y: =262
+      Width: =260
+      Height: =24
+      Size: =11
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(29, 36, 51, 1)
+- txtDuration:
+    Control: Classic/TextInput
+    Properties:
+      Default: ="60"
+      HintText: ="e.g. 60"
+      MaxLength: =6
+      X: =50
+      Y: =288
+      Width: =260
+      Height: =40
+      Size: =12
+- lblBlockedCap:
+    Control: Label
+    Properties:
+      Text: ="Room blocked (maintenance)"
+      X: =330
+      Y: =262
+      Width: =300
+      Height: =24
+      Size: =11
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(29, 36, 51, 1)
+- tglBlocked:
+    Control: Classic/Toggle
+    Properties:
+      Default: =false
+      X: =330
+      Y: =288
+      Width: =160
+      Height: =40
+- btnCheck:
+    Control: Classic/Button
+    Properties:
+      Text: ="Check availability"
+      OnSelect: |-
+        =With(
+            {s: If(IsBlank(dpStart.SelectedDate), Blank(), DateTime(Year(dpStart.SelectedDate), Month(dpStart.SelectedDate), Day(dpStart.SelectedDate), ddHour.Selected.Value, ddMinute.Selected.Value, 0))},
+            With(
+                {c: ReasonCode(s, txtDuration.Text, tglBlocked.Value, Now())},
+                Set(varCode, c);
+                Set(varMessage, ResultMessage(c, s, txtDuration.Text));
+                Set(varChecked, true)
+            )
+        )
+      Fill: =RGBA(36, 83, 199, 1)
+      HoverFill: =RGBA(28, 66, 160, 1)
+      Color: =RGBA(255, 255, 255, 1)
+      FontWeight: =FontWeight.Semibold
+      Size: =12
+      X: =50
+      Y: =348
+      Width: =260
+      Height: =44
+- rectResult:
+    Control: Rectangle
+    Properties:
+      Visible: =varChecked
+      Fill: =Switch(varCode, "AVAILABLE", RGBA(230, 245, 236, 1), "OVERLAP", RGBA(253, 236, 234, 1), "ROOM_BLOCKED", RGBA(253, 236, 234, 1), RGBA(255, 245, 220, 1))
+      BorderColor: =Switch(varCode, "AVAILABLE", RGBA(183, 226, 200, 1), "OVERLAP", RGBA(245, 194, 189, 1), "ROOM_BLOCKED", RGBA(245, 194, 189, 1), RGBA(240, 217, 160, 1))
+      BorderThickness: =1
+      X: =50
+      Y: =410
+      Width: =600
+      Height: =130
+- lblResultTitle:
+    Control: Label
+    Properties:
+      Visible: =varChecked
+      Text: =If(varCode = "AVAILABLE", "Available", varCode in ["OVERLAP", "ROOM_BLOCKED"], "Unavailable", "Check your input")
+      Color: =lblResultMsg.Color
+      X: =66
+      Y: =420
+      Width: =570
+      Height: =34
+      Size: =16
+      FontWeight: =FontWeight.Bold
+- lblResultMsg:
+    Control: Label
+    Properties:
+      Visible: =varChecked
+      Text: =varMessage
+      Color: =Switch(varCode, "AVAILABLE", RGBA(23, 121, 74, 1), "OVERLAP", RGBA(180, 35, 24, 1), "ROOM_BLOCKED", RGBA(180, 35, 24, 1), RGBA(138, 90, 0, 1))
+      X: =66
+      Y: =454
+      Width: =570
+      Height: =50
+      Size: =12
+- lblResultCode:
+    Control: Label
+    Properties:
+      Visible: =varChecked
+      Text: |-
+        ="Reason code: " & varCode
+      Color: =lblResultMsg.Color
+      Font: =Font.'Courier New'
+      X: =66
+      Y: =504
+      Width: =570
+      Height: =26
+      Size: =10
+- lblNote:
+    Control: Label
+    Properties:
+      Text: |-
+        ="Rules live in App.Formulas: ReasonCode() and ResultMessage() are user-defined functions, and Bookings is a named formula, so the app has no way to write to it."
+      X: =50
+      Y: =560
+      Width: =600
+      Height: =60
+      Size: =10
+      Color: =RGBA(93, 102, 119, 1)
+- rectBookCard:
+    Control: Rectangle
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      BorderColor: =RGBA(223, 227, 234, 1)
+      BorderThickness: =1
+      X: =700
+      Y: =105
+      Width: =636
+      Height: =215
+- lblBookTitle:
+    Control: Label
+    Properties:
+      Text: ="Existing bookings (read-only)"
+      X: =720
+      Y: =118
+      Width: =596
+      Height: =32
+      Size: =15
+      FontWeight: =FontWeight.Bold
+      Color: =RGBA(29, 36, 51, 1)
+- lblBkHead:
+    Control: Label
+    Properties:
+      Text: ="ID"
+      X: =720
+      Y: =152
+      Width: =70
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblBkHeadTitle:
+    Control: Label
+    Properties:
+      Text: ="Title"
+      X: =790
+      Y: =152
+      Width: =220
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblBkHeadStart:
+    Control: Label
+    Properties:
+      Text: ="Start"
+      X: =1010
+      Y: =152
+      Width: =200
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblBkHeadEnd:
+    Control: Label
+    Properties:
+      Text: ="End"
+      X: =1210
+      Y: =152
+      Width: =100
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- galBookings:
+    Control: Gallery
+    Variant: Vertical
+    Properties:
+      Items: =Bookings
+      TemplateSize: =40
+      TemplatePadding: =0
+      ShowScrollbar: =false
+      X: =720
+      Y: =176
+      Width: =596
+      Height: =126
+    Children:
+      - lblBkId:
+          Control: Label
+          Properties:
+            Text: =ThisItem.ID
+            X: =0
+            Y: =0
+            Width: =70
+            Height: =40
+            Size: =11
+            Color: =RGBA(29, 36, 51, 1)
+      - lblBkTitle:
+          Control: Label
+          Properties:
+            Text: =ThisItem.Title
+            X: =70
+            Y: =0
+            Width: =220
+            Height: =40
+            Size: =11
+            Color: =RGBA(29, 36, 51, 1)
+      - lblBkStart:
+          Control: Label
+          Properties:
+            Text: =Text(ThisItem.BookStart, "yyyy-mm-dd hh:mm")
+            X: =290
+            Y: =0
+            Width: =200
+            Height: =40
+            Size: =11
+            Color: =RGBA(29, 36, 51, 1)
+      - lblBkEnd:
+          Control: Label
+          Properties:
+            Text: =Text(ThisItem.BookEnd, "hh:mm")
+            X: =490
+            Y: =0
+            Width: =100
+            Height: =40
+            Size: =11
+            Color: =RGBA(29, 36, 51, 1)
+- rectTestCard:
+    Control: Rectangle
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      BorderColor: =RGBA(223, 227, 234, 1)
+      BorderThickness: =1
+      X: =700
+      Y: =335
+      Width: =636
+      Height: =418
+- lblTestsTitle:
+    Control: Label
+    Properties:
+      Text: ="Acceptance tests T1 to T8"
+      X: =720
+      Y: =345
+      Width: =400
+      Height: =34
+      Size: =15
+      FontWeight: =FontWeight.Bold
+      Color: =RGBA(29, 36, 51, 1)
+- btnRunTests:
+    Control: Classic/Button
+    Properties:
+      Text: ="Run all tests"
+      OnSelect: |-
+        =Set(varBookingsBefore, JSON(Bookings));
+        ClearCollect(colTests,
+            {ID: "T1", Name: "Valid free interval", Expected: "AVAILABLE", Observed: ReasonCode(DateTime(2027, 2, 1, 13, 30, 0), "60", false, Now())},
+            {ID: "T2", Name: "Overlap with BK-1", Expected: "OVERLAP", Observed: ReasonCode(DateTime(2027, 2, 1, 9, 30, 0), "60", false, Now())},
+            {ID: "T3", Name: "Blocked room", Expected: "ROOM_BLOCKED", Observed: ReasonCode(DateTime(2027, 2, 1, 13, 30, 0), "60", true, Now())},
+            {ID: "T4", Name: "Duration = 0", Expected: "INVALID_DURATION", Observed: ReasonCode(DateTime(2027, 2, 1, 13, 30, 0), "0", false, Now())},
+            {ID: "T5", Name: "Duration = 121", Expected: "INVALID_DURATION", Observed: ReasonCode(DateTime(2027, 2, 1, 13, 30, 0), "121", false, Now())},
+            {ID: "T6", Name: "Past start time", Expected: "START_IN_PAST", Observed: ReasonCode(DateTime(2026, 11, 20, 10, 0, 0), "60", false, Now())},
+            {ID: "T7", Name: "Adjacent 10:30-12:00", Expected: "AVAILABLE", Observed: ReasonCode(DateTime(2027, 2, 1, 10, 30, 0), "90", false, Now())}
+        );
+        Collect(colTests, {ID: "T8", Name: "Bookings unchanged", Expected: "UNCHANGED", Observed: If(JSON(Bookings) = varBookingsBefore && CountRows(Bookings) = 3, "UNCHANGED", "CHANGED")});
+        Set(varTestsRun, Now())
+      Fill: =RGBA(232, 238, 252, 1)
+      HoverFill: =RGBA(214, 224, 250, 1)
+      Color: =RGBA(36, 83, 199, 1)
+      FontWeight: =FontWeight.Semibold
+      Size: =11
+      X: =1176
+      Y: =345
+      Width: =140
+      Height: =34
+- lblTHeadName:
+    Control: Label
+    Properties:
+      Text: ="Test"
+      X: =720
+      Y: =382
+      Width: =210
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblTHeadExp:
+    Control: Label
+    Properties:
+      Text: ="Expected"
+      X: =930
+      Y: =382
+      Width: =165
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblTHeadObs:
+    Control: Label
+    Properties:
+      Text: ="Observed"
+      X: =1095
+      Y: =382
+      Width: =165
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- lblTHeadRes:
+    Control: Label
+    Properties:
+      Text: ="Result"
+      X: =1260
+      Y: =382
+      Width: =56
+      Height: =24
+      Size: =10
+      FontWeight: =FontWeight.Semibold
+      Color: =RGBA(93, 102, 119, 1)
+- galTests:
+    Control: Gallery
+    Variant: Vertical
+    Properties:
+      Items: =colTests
+      TemplateSize: =37
+      TemplatePadding: =0
+      ShowScrollbar: =false
+      X: =720
+      Y: =406
+      Width: =596
+      Height: =300
+    Children:
+      - lblTName:
+          Control: Label
+          Properties:
+            Text: =ThisItem.ID & "  " & ThisItem.Name
+            X: =0
+            Y: =0
+            Width: =210
+            Height: =37
+            Size: =10
+            Color: =RGBA(29, 36, 51, 1)
+      - lblTExp:
+          Control: Label
+          Properties:
+            Text: =ThisItem.Expected
+            X: =210
+            Y: =0
+            Width: =165
+            Height: =37
+            Size: =10
+            Color: =RGBA(29, 36, 51, 1)
+      - lblTObs:
+          Control: Label
+          Properties:
+            Text: =ThisItem.Observed
+            X: =375
+            Y: =0
+            Width: =165
+            Height: =37
+            Size: =10
+            Color: =RGBA(29, 36, 51, 1)
+      - lblTRes:
+          Control: Label
+          Properties:
+            Text: =If(ThisItem.Expected = ThisItem.Observed, "PASS", "FAIL")
+            X: =540
+            Y: =0
+            Width: =56
+            Height: =37
+            Size: =10
+            FontWeight: =FontWeight.Bold
+            Color: =If(ThisItem.Expected = ThisItem.Observed, RGBA(23, 121, 74, 1), RGBA(180, 35, 24, 1))
+- lblTestSummary:
+    Control: Label
+    Properties:
+      Text: =If(CountRows(colTests) = 0, "Not run yet", CountRows(Filter(colTests, Expected = Observed)) & " / " & CountRows(colTests) & " passed (run at " & Text(varTestsRun, "yyyy-mm-dd hh:mm") & ")")
+      X: =720
+      Y: =712
+      Width: =596
+      Height: =30
+      Size: =12
+      FontWeight: =FontWeight.Bold
+      Color: =RGBA(29, 36, 51, 1)

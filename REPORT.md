@@ -70,6 +70,11 @@ The layout is a two-column grid on desktop and switches to one column below 760 
 
 ![Rules source](docs/screenshots/code-13-source-rules-js.png)
 ![Desktop with all tests](docs/screenshots/code-02-T1-plus-all-tests-8of8.png)
+
+Live demo on GitHub Pages, opened in Chrome:
+
+![Live demo, T2](docs/screenshots/code-14-live-github-pages-T2.png)
+![Live demo, all tests](docs/screenshots/code-15-live-github-pages-tests-8of8.png)
 ![Narrow screen 390 px](docs/screenshots/code-11-narrow-screen-390px.png)
 
 ## Task 04: Low-code solution (Microsoft Power Apps, canvas app)
@@ -127,7 +132,7 @@ Per-test screenshots:
 | T5 | ![](docs/screenshots/code-07-ui-T5.png) | ![](docs/screenshots/lowcode-08-preview-T5-duration-121.png) |
 | T6 | ![](docs/screenshots/code-08-ui-T6.png) | ![](docs/screenshots/lowcode-10-preview-T6-past-start.png) |
 | T7 | ![](docs/screenshots/code-09-ui-T7.png) | ![](docs/screenshots/lowcode-07-preview-T7-adjacent-available.png) |
-| T8 | ![](docs/screenshots/code-02-T1-plus-all-tests-8of8.png) | ![](docs/screenshots/lowcode-13-published-app-live-8of8.png) |
+| T8 | ![](docs/screenshots/code-15-live-github-pages-tests-8of8.png) | ![](docs/screenshots/lowcode-13-published-app-live-8of8.png) |
 
 ## Task 06: Engineering effort
 
@@ -140,6 +145,7 @@ Times are wall-clock minutes taken from timestamps recorded during the session (
 | Debugging | 0 min | 3 min |
 | Testing | 0.5 min | 4 min (UI is driven through dropdowns and clicks) |
 | **Build and repair total** | **about 2 min** | **about 16 min** |
+| Publishing (not counted above) | about 5 min (create repo, upload through the browser, enable Pages) | about 1 min (Publish button) |
 | Acceptance tests passed | 8 / 8 | 8 / 8 |
 | Defects found during build | 0 | 2, both fixed |
 | Unresolved defects | 0 | 0 |
@@ -207,6 +213,7 @@ src/                        data.js, rules.js, app.js, styles.css
 tests/                      cases.js (T1-T8), run-tests.js (node)
 lowcode/                    Power Apps source: App.Formulas.fx, screen-controls.pa.yaml
 docs/CONTRACT.md            shared requirements and acceptance-criteria sheet
+docs/Practice12_Report_Alan_Zhumadilov.pdf   this report as PDF
 docs/screenshots/           all evidence screenshots
 REPORT.md                   this report
 ```

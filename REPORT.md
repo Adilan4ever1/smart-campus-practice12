@@ -3,9 +3,9 @@
 | | |
 |---|---|
 | Course | AI-Driven Software Engineering, Practice #12 (Lesson 12) |
-| Student | Alan Zhumadilov, ID: `<YOUR ID>` |
-| Class time | `<DAY, TIME>` |
-| AI tool | Claude by Anthropic, model Claude Opus 5.5 (`claude-opus-5-5`), used as an agent through claude.ai |
+| Student | Alan Zhumadilov, ID: 24B031793 |
+| Class time | Wed, 15-00 |
+| AI tool | Claude by Anthropic, model Claude Opus 5.5 (`claude-opus-5-5`)|
 | Code-based live demo | https://adilan4ever1.github.io/smart-campus-practice12/ |
 | Low-code live app (Power Apps) | https://apps.powerapps.com/play/e/default-57081b5e-e66a-4993-8eaf-15b0b309293f/a/b99d312e-0402-4e18-97f3-4d812cc79ac1?tenantId=57081b5e-e66a-4993-8eaf-15b0b309293f |
 | Repository | https://github.com/Adilan4ever1/smart-campus-practice12 |

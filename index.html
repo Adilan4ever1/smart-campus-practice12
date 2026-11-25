@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>Smart Campus Room Availability Checker</title>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="eyebrow">Smart Campus &middot; code-based track</p>
+      <h1>Room Availability Checker</h1>
+    </div>
+    <span class="version" id="version">v1.0.0</span>
+  </header>
+
+  <main class="layout">
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Check a time slot</h2>
+      <p class="muted" id="room-name"></p>
+      <form id="check-form" novalidate>
+        <label for="start">Start date and time</label>
+        <input type="datetime-local" id="start" name="start" step="60">
+
+        <label for="duration">Duration (minutes, 1 to 120)</label>
+        <input type="number" id="duration" name="duration" inputmode="numeric" placeholder="60">
+
+        <label class="toggle">
+          <input type="checkbox" id="blocked" name="blocked">
+          <span>Room blocked (maintenance)</span>
+        </label>
+
+        <button type="submit">Check availability</button>
+      </form>
+
+      <div id="result" class="result" role="status" aria-live="polite" hidden>
+        <p class="result-title" id="result-title"></p>
+        <p id="result-message"></p>
+        <p class="code">Reason code: <span id="result-code"></span></p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="bookings-title">
+      <h2 id="bookings-title">Existing bookings (read-only)</h2>
+      <table class="bookings">
+        <thead><tr><th>ID</th><th>Title</th><th>Start</th><th>End</th></tr></thead>
+        <tbody id="bookings-body"></tbody>
+      </table>
+      <p class="muted small" id="bookings-hash"></p>
+    </section>
+
+    <section class="card wide" aria-labelledby="tests-title">
+      <div class="row">
+        <h2 id="tests-title">Acceptance tests T1 to T8</h2>
+        <button type="button" id="run-tests" class="secondary">Run all tests</button>
+      </div>
+      <div class="table-wrap">
+        <table class="tests">
+          <thead><tr><th>Test</th><th>Input</th><th>Expected</th><th>Observed</th><th>Result</th></tr></thead>
+          <tbody id="tests-body"></tbody>
+        </table>
+      </div>
+      <p id="tests-summary" class="summary"></p>
+    </section>
+  </main>
+
+  <script src="src/data.js"></script>
+  <script src="src/rules.js"></script>
+  <script src="tests/cases.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
